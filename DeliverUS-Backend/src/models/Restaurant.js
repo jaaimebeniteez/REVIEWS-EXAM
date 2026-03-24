@@ -23,19 +23,18 @@ const loadModel = (sequelize, DataTypes) => {
     }
 
     async getAvgStars () {
-    try{
-      const reviews = await this.getReviews()
-      if(reviews.length===0)
-      {
-        return null
+      try {
+        const reviews = await this.getReviews()
+        if (reviews.length === 0) {
+          return null
+        }
+        const totalStars = reviews.reduce((acc, review) => acc + review.stars, 0)
+        return totalStars / reviews.length
+      } catch (err) {
+        return err
       }
-      const totalStars= reviews.reduce((acc, totalStars) => acc + totalStars, 0)
-      return totalStars/reviews.length
-    } catch (err) {
-      return err
     }
   }
-}
 
   Restaurant.init({
     name: {
